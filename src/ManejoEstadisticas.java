@@ -10,33 +10,71 @@ public class ManejoEstadisticas {
         estadisticas[indiceProducto] = valorActual + nuevaCantidad;
     }
 
-    //Nombre Producto
-    //Cantidad de veces comprado
-    //Mostrar listado de forma descendente
-    public static void MuestraEstadisiticas(Integer[] estadisticas){
+    
+    public static Integer GetIndiceProducto( String producto ){
+        int indiceDelSeparador = -1;
+        
+        indiceDelSeparador =producto.indexOf("|"); 
+        String indiceProducto = producto.substring(0, indiceDelSeparador);
+        return  Integer.parseInt( indiceProducto);
+    }
+    
+    public static Integer GetCantidad(String producto){
+        int indiceDelSeparador = -1;
+        
+        indiceDelSeparador =producto.indexOf("|"); 
+        String cantidad = producto.substring(indiceDelSeparador+1);
+
+        return Integer.parseInt(cantidad);
+
+    }
+    
+    public static void MuestraEstadisiticas(Integer[] estadisticas, String nombreProducto){
         String[] reporte;
 
         reporte = new String[20];
 
         //ordenar array
-        for (int i = 0; i < estadisticas.length; i++)   
-        {  
+        for (int i = 0; i < estadisticas.length; i++){  
+            if(estadisticas[i] == null){
+                break;
+            }
+            reporte[i] =  String.valueOf(i)+"|"+ String.valueOf(estadisticas[i]);
+            // 0|2
+            // 1|1
+        }
+    }
 
-            System.out.printf("Indice: %d\t Valor:%d\n", i,estadisticas[i] );
+    public static void SortArray(String[] reporte){
+        //{"0|10","1|3", "2|20"}
+        //=> {"2|20", "0|10", "1|3"}
+// 0|2
+// 1|1
+// 2|10
+// 3|5
+// 4|1
+// 5|4
 
-            for (int j = i + 1; j < estadisticas.length; j++)   
-            {  
-                int tmp = 0;  
-                if(estadisticas[i] != null && estadisticas[j] != null ){
-                    if (estadisticas[i] > estadisticas[j])   
-                    {  
-                        tmp = estadisticas[i];  
-                        estadisticas[i] = estadisticas[j];  
-                        estadisticas[j] = tmp;
-                    }  
+        String tmp = "";  
+        for (int i = 0; i < reporte.length; i++) {
+            if( reporte[i] == null){
+                break;
+            }
+            for (int j = i+1; j < reporte.length; j++) {
+                if( reporte[j] == null){
+                    break;
                 }
-            }  
-            //System.out.printf("Indice: %d\t Valor:%d\n", i,estadisticas[i] );
+                
+                int valorCantidad = Integer.parseInt(reporte[i].substring(reporte[i].indexOf("|") + 1 ));
+                int valorCantidadSiguiente = Integer.parseInt(reporte[j].substring(reporte[j].indexOf("|") + 1 ));
+                
+                if (valorCantidad < valorCantidadSiguiente)   
+                {  
+                    tmp =reporte[i];  
+                    reporte[i] = reporte[j];  
+                    reporte[j] = tmp;  
+                }
+            }
         }
     }
 

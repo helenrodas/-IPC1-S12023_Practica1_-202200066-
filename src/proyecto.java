@@ -17,6 +17,9 @@ public class proyecto {
     private static Integer[] estadisticas;
     private static final int sizeEstadisticas = 20;
 
+    private static String[] reporte;
+    private static final int sizeReporte = 20;
+
     public static void InicializarData() {
         nombreUsuario = "cajero_202200066";
         passwordUsuario = "ipc1_202200066";
@@ -50,34 +53,40 @@ public class proyecto {
         codigos[3]="mnop|20";
         codigos[4]="qrst|25";
 
-        /*
+        
         estadisticas[0]=2;
         estadisticas[1]=1;
         estadisticas[2]=2;
         estadisticas[3]=10;
         estadisticas[4]=5;
-        */
+        
+        String[] reporte = new String[20];
 
-       /*for (Integer val : estadisticas) {
+        for (int i = 0; i < estadisticas.length; i++) {
+            if(estadisticas[i] == null){
+                break;
+            }
+          
+            reporte[i] =  String.valueOf(i)+"|"+ String.valueOf(estadisticas[i]);
+        }
+        
+        ManejoEstadisticas.SortArray(reporte); 
+
+        for (String val : reporte) {
             if (val != null){
-                System.out.println( val);
+                System.out.printf("%s\t%d\n", 
+                ManejoProductos.GetNombreByIndice(productos, 
+                ManejoEstadisticas.GetIndiceProducto(val)),
+                ManejoEstadisticas.GetCantidad(val)
+                
+                );
             }
         }
-
-        Integer[] reporteInt = estadisticas.clone();
-        
-        ManejoEstadisticas.MuestraEstadisiticas(reporteInt);
-
-          for (Integer val : reporteInt) {
-            if (val != null){
-                System.out.println( val);
-            }
-        }*/ 
 
 
         //ManejoEstadisticas.IngresarRegistro(estadisticas, 0, 5);
 
-       // EmitirFactura(10, 42.00);
+       EmitirFactura(10, 42.00);
     }
 
     public static void main(String args[]) {
