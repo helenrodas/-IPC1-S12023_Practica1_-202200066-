@@ -17,8 +17,6 @@ public class proyecto {
     private static Integer[] estadisticas;
     private static final int sizeEstadisticas = 20;
 
-    private static String[] reporte;
-    private static final int sizeReporte = 20;
 
     public static void InicializarData() {
         nombreUsuario = "cajero_202200066";
@@ -29,7 +27,7 @@ public class proyecto {
         codigos = new String[sizeCodigos];
         estadisticas = new Integer[sizeEstadisticas];
         
-        productos[0] = "Galletas Diana|2.00";
+        /*productos[0] = "Galletas Diana|2.00";
         productos[1] = "Jugo Manzana|3.00";
         productos[2] = "Tortrix de limon|5.00";
         productos[3] = "Chiles Adams|0.50";
@@ -58,35 +56,11 @@ public class proyecto {
         estadisticas[1]=1;
         estadisticas[2]=2;
         estadisticas[3]=10;
-        estadisticas[4]=5;
+        estadisticas[4]=5;*/
         
-        String[] reporte = new String[20];
-
-        for (int i = 0; i < estadisticas.length; i++) {
-            if(estadisticas[i] == null){
-                break;
-            }
-          
-            reporte[i] =  String.valueOf(i)+"|"+ String.valueOf(estadisticas[i]);
-        }
         
-        ManejoEstadisticas.SortArray(reporte); 
 
-        for (String val : reporte) {
-            if (val != null){
-                System.out.printf("%s\t%d\n", 
-                ManejoProductos.GetNombreByIndice(productos, 
-                ManejoEstadisticas.GetIndiceProducto(val)),
-                ManejoEstadisticas.GetCantidad(val)
-                
-                );
-            }
-        }
-
-
-        //ManejoEstadisticas.IngresarRegistro(estadisticas, 0, 5);
-
-       EmitirFactura(10, 42.00);
+       //EmitirFactura(10, 42.00);
     }
 
     public static void main(String args[]) {
@@ -98,7 +72,7 @@ public class proyecto {
         //AgregarCupones();
         //RealizarVentas();
         //CalcularFactura();
-       
+        //RealizarReporte();
     }
 
     public static void VerificarCredenciales() {
@@ -129,8 +103,7 @@ public class proyecto {
         System.out.println("1) Agregar nuevos productos");
         System.out.println("2) Agregar cupones de descuento");
         System.out.println("3) Realizar ventas");
-        System.out.println("4) Emitir factura");
-        System.out.println("5) Realizar reporte");
+        System.out.println("4) Realizar reporte");
         System.out.println("0) Salir del programa.");
 
         System.out.println("Seleccione opcion: ");
@@ -149,14 +122,11 @@ public class proyecto {
             switch (opcion) {
                 case 1: AgregarProductos();
                      break;
-                case 2:
-                    AgregarCupones();
+                case 2: AgregarCupones();
                     break;
-                case 3:
-                    RealizarVentas();
+                case 3: RealizarVentas();
                     break;
-                case 4:
-                    RealizarReporte();
+                case 4: RealizarReporte();
                     break;
                 default:
                     break;
@@ -174,10 +144,10 @@ public class proyecto {
         do{
             Tools.clearScreen();
 
-            System.out.println("Ingrese producto: ");
+            System.out.print("Ingrese producto: ");
             producto =in.next();
             
-            System.out.println("Ingrese precio: ");
+            System.out.print("Ingrese precio: ");
             precio =in.nextDouble();
 
             //--"Galletas Diana|2.00"
@@ -219,12 +189,12 @@ public class proyecto {
         do{
             Tools.clearScreen();
 
-            System.out.println("Ingrese codigo: ");
+            System.out.print("Ingrese codigo: ");
             codigo =in.next();
       
             if (codigo.length() == 4 ){
                 
-                System.out.println("Ingrese descuento: ");
+                System.out.print("Ingrese descuento: ");
                 descuento =in.nextInt();
           
                 //--"D23S| 5%"
@@ -272,10 +242,10 @@ public class proyecto {
         Scanner in = new Scanner(System.in);
         
         PedirDatosCliente();
-
-        ManejoProductos.ImprimirInventario(productos);
         
         do{
+            ManejoProductos.ImprimirInventario(productos);
+            
             
             System.out.print("Ingrese indice del producto: ");
             indiceProducto =in.next();
@@ -284,7 +254,7 @@ public class proyecto {
          
             cantidadProducto =in.next();
 
-            //--"Galletas Diana|2.00"
+            //--"0|2"
             String nuevoProductoAgregado= indiceProducto.trim() + "|"+ String.valueOf(cantidadProducto);
 
            // ManejoCarritoCompra.AgregarItemAFactura(nuevoProductoAgregado);
@@ -302,6 +272,8 @@ public class proyecto {
             if (posicion == -1 ) { 
                 carritoCompra[indiceVacio] = nuevoProductoAgregado;
 
+                ManejoEstadisticas.IngresarRegistro(estadisticas, Integer.parseInt(indiceProducto), Integer.parseInt(cantidadProducto));
+
                 System.out.println("Producto Agregado.\n");
             }
             else { 
@@ -309,7 +281,7 @@ public class proyecto {
             }
             System.out.print("¿Continuar?(s/n): ");
             continuar = in.next().substring(0,1);
-
+            Tools.clearScreen();
        }while(continuar.equalsIgnoreCase("s"));
        
        Integer pctDescuento = ManejoDescuentos.ProcesarDescuento(codigos);
@@ -366,28 +338,60 @@ public class proyecto {
         System.out.println("---------------------------------------------------");
         ManejoCarritoCompra.ListadoDeProductos(carritoCompra, productos);
         System.out.println(" ");
-
+        // 
         if (pctDescuento == 0){
-            System.out.println("Su total es de: "+ subTotal);
+            System.out.printf("Su total es de: Q%5.2f\n", subTotal);
         }
         else{
             descuentoEnDecimales= pctDescuento/100.00;
             total=subTotal-(descuentoEnDecimales*subTotal);
-            System.out.printf("%s %2d\n", "Porcentaje de Descuento: ", pctDescuento);
+            System.out.printf("%s %%%2d\n", "Porcentaje de Descuento: ", pctDescuento);
             System.out.printf("Su total con el descuento aplicado es de: Q%5.2f\n", total);
+            System.out.println(" ");
         }
         System.out.println("===============Gracias por su compra=============== ");
-
+        carritoCompra = new String[sizeCarritoCompra];
         System.out.printf("\n\n");
 
-        System.out.println("Presione una Enter para continuar...");
+        System.out.println("Presione Enter para continuar...");
        
         in.nextLine();
         MenuInicial();
     }
 
     public static void RealizarReporte() {
-         
+        Scanner in = new Scanner(System.in);
+        String[] reporte = new String[20];
+
+        //ManejoEstadisticas.IngresarRegistro(estadisticas, , null);
+        Tools.clearScreen();
+        for (int i = 0; i < estadisticas.length; i++) {
+            if(estadisticas[i] != null){
+                reporte[i] =  String.valueOf(i)+"|"+ String.valueOf(estadisticas[i]);
+            }
+        }
+        
+        ManejoEstadisticas.SortArray(reporte); 
+        System.out.println("==============Reporte=============");
+        System.out.printf("%1$-4s\t %2$15s\n","Producto ","Cantidad ");
+        System.out.println("----------------------------------");
+
+        for (String val : reporte) {
+           
+            if (val != null){
+                System.out.printf("%-20s\t %2$3s\n", 
+                ManejoProductos.GetNombreByIndice(productos, 
+                ManejoEstadisticas.GetIndiceProducto(val)),
+                ManejoEstadisticas.GetCantidad(val)
+                
+                );
+            }
+        }
+        System.out.printf("\n\n");
+        System.out.println("Presione Enter para continuar...");
+       
+        in.nextLine();
+        MenuInicial();
     
     }
 

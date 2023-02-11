@@ -78,6 +78,11 @@ public class ManejoCarritoCompra {
 
         System.out.println("---------------------------------------------------");
      
-        System.out.printf("%s\t%5.2f\n", " subtotal:------------- ", subTotal);
+        System.out.printf("%-20s Q%5.2f\n", " subtotal: ", subTotal);
     }
+
+   
 }
+
+
+
