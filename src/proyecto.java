@@ -19,67 +19,29 @@ public class proyecto {
 
 
     public static void InicializarData() {
-        nombreUsuario = "cajero_202200066";
-        passwordUsuario = "ipc1_202200066";
-
         productos = new String[sizeProductos];
         carritoCompra = new String[sizeCarritoCompra];
         codigos = new String[sizeCodigos];
         estadisticas = new Integer[sizeEstadisticas];
-        
-        /*productos[0] = "Galletas Diana|2.00";
-        productos[1] = "Jugo Manzana|3.00";
-        productos[2] = "Tortrix de limon|5.00";
-        productos[3] = "Chiles Adams|0.50";
-        productos[4] = "Botella de agua|4.00";
-        
-        
-
-        //ManejoProductos.ImprimirInventario(productos);
-        carritoCompra[0]="Helen|C/F";
-        carritoCompra[1]="0|2";
-        carritoCompra[2]="4|5";
-        carritoCompra[3]="2|2";
-        carritoCompra[4]="1|1";
-        carritoCompra[5]="3|10";
-        //CalcularFactura();
-        
-
-        codigos[0]="abcd|5";
-        codigos[1]="efgh|10";
-        codigos[2]="ijkl|15";
-        codigos[3]="mnop|20";
-        codigos[4]="qrst|25";
-
-        
-        estadisticas[0]=2;
-        estadisticas[1]=1;
-        estadisticas[2]=2;
-        estadisticas[3]=10;
-        estadisticas[4]=5;*/
-        
-        
-
-       //EmitirFactura(10, 42.00);
     }
 
     public static void main(String args[]) {
-
         InicializarData();
-        // VerificarCredenciales();
-        MenuInicial();
-        //AgregarProductos();
-        //AgregarCupones();
-        //RealizarVentas();
-        //CalcularFactura();
-        //RealizarReporte();
+        Tools.clearScreen();
+        VerificarCredenciales();
     }
 
     public static void VerificarCredenciales() {
         String user = "";
         String password = "";
+        nombreUsuario = "cajero_202200066";
+        passwordUsuario = "ipc1_202200066";
 
         Scanner in = new Scanner(System.in);
+
+        System.out.println("************Bienvenido a la tienda SUPER-25************");
+        System.out.println("");
+ 
         while (true) {
             System.out.print("Ingresa tu usuario: ");
             user = in.nextLine();
@@ -87,15 +49,14 @@ public class proyecto {
             password = in.nextLine();
 
             if (user.equals(nombreUsuario) && password.equals(passwordUsuario)) {
-                in.close();
                 break;
             } else {
                 System.out.println("************Error************");
                 System.out.println("Usuario o constrasenia incorrectos, intentalo de nuevo");
             }
         }
-        System.out.println("************Bienvenido a la tienda SUPER-25************");
-        System.out.println("");
+        
+        MenuInicial();
     }
 
     public static void ImprimirMenuInicial() {
@@ -115,6 +76,7 @@ public class proyecto {
 
         do {
             Tools.clearScreen();
+            
             ImprimirMenuInicial();
 
             opcion = in.nextInt();
@@ -256,8 +218,6 @@ public class proyecto {
 
             //--"0|2"
             String nuevoProductoAgregado= indiceProducto.trim() + "|"+ String.valueOf(cantidadProducto);
-
-           // ManejoCarritoCompra.AgregarItemAFactura(nuevoProductoAgregado);
 
             //--regresa -1 si no encuntra el item
             int posicion = ManejoProductos.ExisteProductoAgregado( carritoCompra, nuevoProductoAgregado);
