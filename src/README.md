@@ -1,11 +1,11 @@
-# Indice
+# Datos Personales
 
 ## Creado: 2023-02-06
 
-## Nombre: Helen Rodas
+## Nombre: Helen Janet Rodas Castro
 
-## etc 
+## Carne: 202200066 
 
-## etc
+## Curso: Lab. IPC
 
-## Descripcion del proyecto:
+## Seccion: D
